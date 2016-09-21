@@ -22,7 +22,7 @@ myLayout = avoidStruts $ smartBorders tiled ||| smartBorders (Mirror tiled) ||| 
 myStartupHook = setWMName "LG3D" -- deek
 
 main = do
-    xmproc <- spawnPipe "/usr/bin/xmobar /home/dpzmick/.xmobarrc"
+    xmproc <- spawnPipe "/usr/bin/xmobar /home/james/.xmobarrc"
     xmonad $ defaultConfig
         { terminal = "gnome-terminal"
 
@@ -33,26 +33,32 @@ main = do
         , logHook = dynamicLogWithPP xmobarPP
                         { ppOutput = hPutStrLn xmproc
                         , ppTitle = xmobarColor "#2aa198" "" . shorten 50
-                        , ppCurrent = \s -> xmobarColor "#b58900" "" ("["++s++"]")
+                        , ppCurrent = \s -> xmobarColor "#b58900" "" ("("++s++")")
                         }
         -- something about fullscreen in chrome
         , handleEventHook = fullscreenEventHook
 
         -- colors
-        , borderWidth        = 1
-        , focusedBorderColor = "#d33682" -- 'magenta' from solarized
-        , normalBorderColor  = "#073642" -- 'base02' from solarized
+        , borderWidth        = 2
+        , focusedBorderColor = "#586e75" -- base01
+        , normalBorderColor  = "#002b36" -- base03
         }
         `additionalKeysP`
         [ ("<XF86MonBrightnessDown>" , spawn "xbacklight -10")
         , ("<XF86MonBrightnessUp>"   , spawn "xbacklight +10")
         , ("<XF86AudioRaiseVolume>"  , spawn "amixer -D pulse sset Master 5%+")
         , ("<XF86AudioLowerVolume>"  , spawn "amixer -D pulse sset Master 5%-")
+        , ("<XF86AudioMute>"         , spawn "amixer -D pulse sset Master 0%")
+        , ("<XF86AudioPlay>"         , spawn "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause && sleep .5" )
+        , ( "<XF86AudioNext>"        , spawn "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next && sleep .5" )
+        , ( "<XF86AudioPrev>"        , spawn "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous && sleep .5" )
+
         , ("<Print>"                 , spawn "sleep 0.2; take-screenshot.sh")
 
-        , ("M-p"                     , spawn "dmenu_run -nb '#002B36' -nf '#93a1a1' -sb '#93a1a1' -sf '#002b36'")
         , ("M-b", sendMessage ToggleStruts)
+        , ("M-p", spawn "dmenu_run -nb '#93a1a1' -nf '#002b36' -sb '#002b36' -sf '#93a1a1'")
 
         -- app launchers
-        , ("M-<Print>"               , spawn "google-chrome")
+        , ("<XF86Search>"            , spawn "chromium-browser")
+        , ("<F7>"                    , spawn "spotify")
         ]
