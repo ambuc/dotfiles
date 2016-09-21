@@ -1,307 +1,125 @@
-" David Zmick's vimrc (dpzmick)
-" Do whatever you want with this
+" CUSTOM .VIMRC by JAMES BUCKLAND 
+" james.adam.buckland@gmail.com
+" created June 01 2014
+" :so %
 
-set nocompatible
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Plugins
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-call plug#begin("~/.vim/plugged/")
+"PLUGINS
+call pathogen#infect() " enable pathogen extention handler
+filetype plugin indent on " idk, something to do with plugins
+set laststatus=2 " i'll be honest, i have no idea what this does. but it makes
 
-Plug 'altercation/vim-colors-solarized'
-
-" show marks
-Plug 'kshenoy/vim-signature'
-
-" status bar
-Plug 'itchyny/lightline.vim'
-
-" organize and search
-Plug 'rking/ag.vim'
-Plug 'Shougo/vimproc.vim', {'do': 'make'}
-Plug 'Shougo/neomru.vim'
-Plug 'Shougo/unite.vim'
-Plug 'Shougo/unite-outline'
-
-" vcs
-Plug 'mhinz/vim-signify'
-Plug 'tpope/vim-fugitive'
-
-" text editing
-Plug 'junegunn/vim-easy-align'
-Plug 'tpope/vim-commentary'
-Plug 'dhruvasagar/vim-table-mode'
-
-" motion
-Plug 'Lokaltog/vim-easymotion'
-
-" snippets
-Plug 'SirVer/ultisnips'
-
-" Generally useful programming plugins
-Plug 'scrooloose/syntastic'
-Plug 'Yggdroot/indentLine'
-Plug 'Raimondi/delimitMate'
-Plug 'bronson/vim-trailing-whitespace'
-
-" clojure
-Plug 'guns/vim-clojure-static', {'for': 'clojure'}
-Plug 'tpope/vim-fireplace', {'for': 'clojure'}
-Plug 'tpope/vim-salve', {'for': 'clojure'}
-" Plug 'vim-scripts/paredit.vim', {'for': 'clojure'}
-Plug 'luochen1990/rainbow', {'for': 'clojure'}
-
-" haskell
-Plug 'dag/vim2hs'
-Plug 'eagletmt/neco-ghc'
-Plug 'bitc/hdevtools'
-" Plug 'lambdatoast/elm.vim'
-
-Plug 'rust-lang/rust.vim'
-
-" for c, flex, bison
-Plug 'justinmk/vim-syntax-extra'
-
-" Integration with dvtm
-" Plug 'dpzmick/vim-dvtm-navigator'
-Plug 'christoomey/vim-tmux-navigator'
-
-" autocomplete
-Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer'}
-Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
-
-if has('nvim')
-    Plug 'floobits/floobits-neovim'
-endif
-
-call plug#end()
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" General
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-filetype plugin indent on
-
-" automatically read a file when changed
-set autoread
-
-" Keep undo history across sessions, by storing in file.
-" Only works all the time.
-if has('persistent_undo')
-    silent !mkdir ~/.vim/backups > /dev/null 2>&1
-    set undodir=~/.vim/backups
-    set undofile
-endif
-
-" store all swap files in home
-silent !mkdir ~/.vim/swaps > /dev/null 2>&1
-set swapfile
-set dir=~/.vim/swaps
-
-" keeps buffers open but hidden when not in use
-set hidden
-
-" spelling
-set spell
-setlocal spell spelllang=en_us
-
-" have Vim jump to the last position when reopening a file
-au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-
-" use the system clipboard by default
-set clipboard=unnamed,unnamedplus
-
-" update the terminal title
-set title
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" UI
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" show incomplete commands
-set showcmd
-
-" always show a ruler
-set ruler
-set backspace=eol,start,indent
-
-" ignorecase, but be smart about it
-set ignorecase
-set smartcase
-
-" highlight search results
-set hlsearch
-
-" be incremental, like most web browsers
-set incsearch
-
-" use regex magic
-set magic
-
-" show matching brackets
-set showmatch
-
-" don't be annoying
-set noerrorbells
-set novisualbell
-
-" use the mouse
-set mouse=a
-" hide the mouse while typing
-set mousehide
-
-" keep cursor in the middle of the screen
-set scrolloff=5
-
-" use wild menu
-set wildmenu
-set wildmode=list:longest
-
+ 
+" LINE NUMBERS AND ORIENTATION
 set number
+" set relativenumber " line numbers become relative to cursor position
+set scrolloff=999 " keeps the cursor in the middle of the screen
+noremap zz :let &scrolloff=999-&scrolloff<CR> 
+"the above line toggles the vertical alignment
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Syntax, Colors, and Fonts
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" enable syntax highlighting
-syntax enable
 
-" Set colorscheme
-set background=dark
+" CURSOR LINE HIGHLIGHTING
+set cursorline
+"hi CursorLine cterm=NONE ctermbg=237 
+"ctermfg=white
+"set cursorcolumn
+"hi CursorColumn cterm=NONE ctermbg=237 
+"ctermfg=white
 
-" if the terminal you are using doesn't support solarized use this
-"let g:solarized_termcolors = 256
 
-colorscheme solarized
+" TABS AND SPACES
+set expandtab "tab becomes two spaces
+set shiftwidth=2 " >>, << operations shift by 2 spaces 
+set softtabstop=2 " <Tab> shifts by 2 spaces
+set tabstop=2 " a column is 2 spaces
+" set expandtab " all tabs become spaces
 
-" Make the SignColumn not look obnoxious
-highlight clear SignColumn
-
-" Encoding
-set encoding=utf8
-
-" conceal sucks
-set conceallevel=0
-au FileType * setl conceallevel=0
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Tabs and Indentation
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Use Spaces, such that tab = 4 spaces
-set shiftwidth=4
-set tabstop=4
-set expandtab
-
-" except when editing C/C++ files
-au FileType c setl shiftwidth=2 tabstop=2
-au FileType cpp setl shiftwidth=2 tabstop=2
-
-" but try to be smart about tabs
-set smarttab
-
-" Lets use 80 character lines
-set textwidth=80
-if exists("&colorcolumn")
-    set colorcolumn=+1 " and show a pretty line
-endif
-
-" smart + auto indent
-set smartindent
+" INDENTATION
 set autoindent
+set smartindent
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Status line
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set laststatus=2 "make sure status line always shows up
-so ~/.vim/custom/status.vim
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" unite.vim
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-call unite#filters#sorter_default#use(['sorter_rank'])
-"call unite#custom#source('file_rec/async','sorters','sorter_rank', )
+"MISCELLANEOUS
+map <space> viw
+iabbrev @@ james.adam.buckland@gmail.com
+set matchpairs+=<:> " match with % between <> pairs
+set incsearch " enable incremental search
+nnoremap ; :
+" highlight OverLength ctermbg=darkred ctermfg=white guibg=#592929
+" match OverLength /\%81v.\+/
+" set mouse=a "enable mouse
+set mouse=
+set autoread " reloads files on change
 
-let g:unite_data_directory             = '~/.vim/.cache/unite'
-let g:unite_source_history_yank_enable = 1
-let g:unite_split_rule                 = 'botright'
 
-command UnitePWD      :Unite -wipe -no-split -start-insert file_rec/async
-command UniteBuffers  :Unite -wipe -no-split -start-insert buffer
-command UniteTags     :Unite -wipe -vertical outline
+"COLOR
+syntax enable
+set term=xterm-256color
+set background=dark
+colorscheme default
 
-" ignore things in unite fuzzy finder
-autocmd FileType javascript call unite#custom#source('file_rec/async', 'ignore_pattern', 'node_modules/')
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Plugin settings
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Trigger configuration.
-let g:UltiSnipsExpandTrigger       = "<c-f>"
-let g:UltiSnipsJumpForwardTrigger  = "<c-f>"
-let g:UltiSnipsJumpBackwardTrigger = "<c-d>"
+"" AUGROUPS
+augroup jade_compile
+	au!
+	autocmd BufWritePost *.jade :!jade --pretty %
+augroup end
+augroup coffeescript_compile
+	au!
+	autocmd BufWritePost *.coffee :!coffee --compile %
+augroup end
+augroup latex_compile
+  au!
+  autocmd BufWritePost *.tex :!pdflatex %
+augroup end
 
-" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
 
-" YouCompleteMe
-" Sets the ycm_extra_conf file (right now is just a file for C)
-let g:ycm_global_ycm_extra_conf = '~/.vim/custom/.ycm_extra_conf.py'
-let g:ycm_semantic_triggers = {'haskell' : ['.']}
+"" TAB STUFF
+set t_ut=
+set showtabline=2 "show tab bar on top even if there is just one
+set tabpagemax=25 "allow up to 25 tabs
+cabbrev help tab help
+set wildmenu " show autocomplete info in some places
+set wildmode=list:longest,full " when autocompleting, first show all matches then cycle thru them
+set showcmd "show partial commands as they are being typed
+set hlsearch incsearch "search as you type and highlight matches
+set ignorecase smartcase "search handles case sensitivity well
 
-" always match parens
-let loaded_matchparen = 1
 
-" always use rainbow parens
-let g:rainbow_active = 1
+" UNDO
+" Save and load undo history in a file
+set undofile
+set undodir=$HOME/.vim/undo
+set undolevels=100
+set undoreload=1000
 
-" tell delimitmate to always add newlines
-let delimitMate_expand_cr=1
+let s:base03 = [ '#002b36', 8 ]
+let s:base02 = [ '#073642', 0 ]
+let s:base01 = [ '#586e75', 10 ]
+let s:base00 = [ '#657b83', 11  ]
+let s:base0 = [ '#839496', 12 ]
+let s:base1 = [ '#93a1a1', 14 ]
+let s:base2 = [ '#eee8d5', 7 ]
+let s:base3 = [ '#fdf6e3', 15 ]
+let s:yellow = [ '#b58900', 3 ]
+let s:orange = [ '#cb4b16', 9 ]
+let s:red = [ '#dc322f', 1 ]
+let s:magenta = [ '#d33682', 5 ]
+let s:violet = [ '#6c71c4', 13 ]
+let s:blue = [ '#268bd2', 4 ]
+let s:cyan = [ '#2aa198', 6 ]
+let s:green = [ '#859900', 2 ]
 
-" Make vim-commentary use // for comments instead of using /* */
-autocmd FileType c set commentstring=//\ %s
-autocmd FileType c++ set commentstring=//\ %s
-
-autocmd FileType rnoweb set lbr
-autocmd FileType rnoweb set tw=0
-
-" Set the format of the status line to stick in status bar
-let g:syntastic_stl_format = "%E{E:%e %fe}%B{ }%W{W:%w %fw}"
-let g:syntastic_javascript_checkers = ['eslint']
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Keybindings
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" the beginnings of some spacemacs-style bindings
-" set leader to "space"
-let mapleader=" "
-let maplocalleader=","
-
-" Make jk escape
-inoremap jk <Esc>
-" vnoremap jk <Esc>
-
-" navigating buffers
-" TODO add some commands to make gists from a buffer
-nnoremap <silent> <Leader><Tab> :b#<cr>
-nnoremap <silent> <Leader>bb    :UniteBuffers<cr>
-nnoremap <silent> <Leader>bd    :bdelete<cr>
-nnoremap <silent> <Leader>bw    :FixWhitespace<CR>
-
-" commands on filesystem
-nnoremap <silent> <Leader>ff  :UnitePWD<cr>
-
-" searching commands
-nnoremap <silent> <Leader>sc :noh<cr>
-
-" hit enter in visual mode to easy align
-vmap <Enter> <Plug>(EasyAlign)
-
-" use dvtm plugin
-" nnoremap <silent> <C-h> :DvtmNavigateLeft<cr>
-" nnoremap <silent> <C-j> :DvtmNavigateDown<cr>
-" nnoremap <silent> <C-k> :DvtmNavigateUp<cr>
-" nnoremap <silent> <C-l> :DvtmNavigateRight<cr>
-
-if exists(':tnoremap')
-    tnoremap jk <c-\><c-n>
-endif
-
-let g:ycm_rust_src_path = '~/builds/rust'
+"" LATEX
+" REQUIRED. This makes vim invoke Latex-Suite when you open a tex file.
+filetype plugin on
+" important: grep will sometimes skip displaying the file name if you
+" search in a single file. This will confuse Latex-Suite. Set your grep
+" program to always generate a file-name.
+set grepprg=grep\ -nH\ $*
+" optional: This enables automatic indentation as you type.
+filetype indent on
+" optional: Starting with Vim 7, the filetype of empty .tex files defaults to
+" 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
+" The following changes the default filetype back to 'tex':
+let g:tex_flavor='latex'

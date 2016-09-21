@@ -1,16 +1,9 @@
-# get the right env
-source ~/.zshenv
-
-# set a random background
-set-wallpaper.sh
-
 # set capslock to ctrl
 setxkbmap -option ctrl:nocaps
 
-# start some tray apps
-dropbox start
-/opt/extras.ubuntu.com/touchpad-indicator/bin/touchpad-indicator &
+syndaemon -t -i 1 &
+
 nm-applet &
 trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --transparent true --alpha 0 --tint 0x002b36 --width 5 --height 19 &
 
-redshift &
+feh --bg-scale ~/Pictures/sat.png &
