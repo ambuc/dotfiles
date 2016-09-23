@@ -1,5 +1,7 @@
 # dotfiles
 
+last edited by me, James, on 2016-09-22
+
 # Install
 require ruby and rake, if you don't have these you will have to add symlinks
 manually
