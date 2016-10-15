@@ -123,3 +123,13 @@ filetype indent on
 " 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
 " The following changes the default filetype back to 'tex':
 let g:tex_flavor='latex'
+
+hi CursorLine   cterm=NONE ctermbg=darkmagenta ctermfg=white guibg=darkred guifg=white
+hi CursorColumn cterm=NONE ctermbg=darkmagenta ctermfg=white guibg=darkred guifg=white
+set nocursorline nocursorcolumn
+nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
+
+" ALIGN COLUMNS
+nnoremap <Leader>a :%!column -t<CR> 
+" FORMAT JSONN
+nnoremap <Leader>j :%!python -m json.tool<CR>
