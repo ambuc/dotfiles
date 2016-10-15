@@ -1,8 +1,13 @@
+-- http://xmonad.org/xmonad-docs/xmonad-contrib/src/XMonad-Hooks-DynamicLog.html#xmobarPP
+-- http://xmonad.org/xmonad-docs/xmonad-contrib/XMonad-Hooks-DynamicLog.html#g:6
+-- http://xmonad.org/xmonad-docs/xmonad-contrib/XMonad-Util-Loggers.html
+-- http://ethanschoonover.com/solarized
 import XMonad
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Layout
 import XMonad.Layout.NoBorders ( noBorders, smartBorders )
+import XMonad.Util.Loggers
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.Run(unsafeSpawn)
 import XMonad.Util.EZConfig(additionalKeysP)
@@ -33,13 +38,33 @@ main = do
         , logHook = dynamicLogWithPP xmobarPP
                         { ppOutput = hPutStrLn xmproc
                         , ppTitle = xmobarColor "#2aa198" "" . shorten 50
-                        , ppCurrent = \s -> xmobarColor "#b58900" "" ("("++s++")")
+                        --, ppCurrent = \s -> xmobarColor "#b58900" "" ("("++s++")")
+                        , ppCurrent = \s -> xmobarColor "#b58900" "" s
+												, ppLayout = xmobarColor "#93a1a1" "" .
+                            (\ x -> case x of
+                                      "Tall"          -> "[]="
+                                      "Mirror Tall"   -> "|||"
+                                      "Full"          -> "[ ]"
+                                      _               -> x
+                            )
+												, ppSep =  xmobarColor "#586e75" "" " | "
+												, ppWsSep = " "
+												, ppExtras = 
+													[
+                            wrapL "vol: " "%" $ 
+                            xmobarColorL "#cb4b16" "" $ 
+                            logCmd "amixer -D pulse sget Master | tail -n 1 | mawk '{ print(substr($5,2,index($5,\"%\")-2) ) }' "
+													, wrapL "bri: " "%" $ 
+                            xmobarColorL "#dc322f" "" $ 
+                            logCmd "xbacklight -get | mawk '{print(substr($1,1,length($1)-7) )}'"
+													]
+												, ppOrder = \(ws:l:t:x) -> [ws,l]++x++[t]
                         }
         -- something about fullscreen in chrome
         , handleEventHook = fullscreenEventHook
 
         -- colors
-        , borderWidth        = 2
+        , borderWidth        = 1
         , focusedBorderColor = "#586e75" -- base01
         , normalBorderColor  = "#002b36" -- base03
         }
