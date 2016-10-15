@@ -5,12 +5,13 @@ Config {
    , bgColor =      "#002b36"
    , fgColor =      "#586e75"
    , position =     TopW L 95
-   , border =       BottomB
+   , border =       NoBorder
    , borderColor =  "#000000"
 
    -- layout
    , sepChar =  "%"   -- delineator between plugin names and straight text
    , alignSep = "}{"  -- separator between left-right alignment
+   --, template = "%StdinReader% }{ %memory% | %multicpu% | %coretemp% | %dynnetwork% | %battery% | %date% | %brightness% | %volume%"
    , template = "%StdinReader% }{ %memory% | %multicpu% | %coretemp% | %dynnetwork% | %battery% | %date%"
 
    -- general behavior
@@ -40,6 +41,15 @@ Config {
         -- weather monitor
         [ Run Weather "KCMI" [ "--template", "<skyCondition> | <fc=#4682B4><tempF></fc>°F | <fc=#4682B4><rh></fc>%"
                              ] 36000
+
+
+        , Run Com "uname"    [ "-s", "-r"] "" 0
+
+        , Run Com "xbacklight" [ "-get" ] "brightness" 10
+
+        --, Run Com "" [] "brightness" 10
+
+        --, Run Com "amixer"   [ "-D",  "pulse", "sget", "Master", "|", "tail", "-n", "1", "|", "mawk", "'{ print(substr($5,2,index($5,\"%\")-2))}'"]  "volume" 10
 
 
         -- network activity monitor (dynamic interface resolution)
