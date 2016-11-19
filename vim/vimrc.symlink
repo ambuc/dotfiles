@@ -1,4 +1,4 @@
-" CUSTOM .VIMRC by JAMES BUCKLAND 
+" CUSTOM .VIMRC by JAMES BUCKLAND
 " james.adam.buckland@gmail.com
 " created June 01 2014
 " :so %
@@ -6,30 +6,24 @@
 
 "PLUGINS
 call pathogen#infect() " enable pathogen extention handler
+"  implicit Pathogen modules
+"      ntpeters/vim-better-whitespace
+"          :StripWhitespace
+"          :ToggleWhitespace
+"
 filetype plugin indent on " idk, something to do with plugins
 set laststatus=2 " i'll be honest, i have no idea what this does. but it makes
 
- 
 " LINE NUMBERS AND ORIENTATION
 set number
 " set relativenumber " line numbers become relative to cursor position
 set scrolloff=999 " keeps the cursor in the middle of the screen
-noremap zz :let &scrolloff=999-&scrolloff<CR> 
+noremap zz :let &scrolloff=999-&scrolloff<CR>
 "the above line toggles the vertical alignment
-
-
-" CURSOR LINE HIGHLIGHTING
-set cursorline
-"hi CursorLine cterm=NONE ctermbg=237 
-"ctermfg=white
-"set cursorcolumn
-"hi CursorColumn cterm=NONE ctermbg=237 
-"ctermfg=white
-
 
 " TABS AND SPACES
 set expandtab "tab becomes two spaces
-set shiftwidth=2 " >>, << operations shift by 2 spaces 
+set shiftwidth=2 " >>, << operations shift by 2 spaces
 set softtabstop=2 " <Tab> shifts by 2 spaces
 set tabstop=2 " a column is 2 spaces
 " set expandtab " all tabs become spaces
@@ -38,61 +32,12 @@ set tabstop=2 " a column is 2 spaces
 set autoindent
 set smartindent
 
-
-"MISCELLANEOUS
-map <space> viw
-iabbrev @@ james.adam.buckland@gmail.com
-set matchpairs+=<:> " match with % between <> pairs
-set incsearch " enable incremental search
-nnoremap ; :
-" highlight OverLength ctermbg=darkred ctermfg=white guibg=#592929
-" match OverLength /\%81v.\+/
-" set mouse=a "enable mouse
-set mouse=
-set autoread " reloads files on change
-
-
-"COLOR
+"" COLOR
 syntax enable
 set term=xterm-256color
 set background=dark
 colorscheme default
-
-
-"" AUGROUPS
-augroup jade_compile
-	au!
-	autocmd BufWritePost *.jade :!jade --pretty %
-augroup end
-augroup coffeescript_compile
-	au!
-	autocmd BufWritePost *.coffee :!coffee --compile %
-augroup end
-augroup latex_compile
-  au!
-  autocmd BufWritePost *.tex :!pdflatex %
-augroup end
-
-
-"" TAB STUFF
-set t_ut=
-set showtabline=2 "show tab bar on top even if there is just one
-set tabpagemax=25 "allow up to 25 tabs
-cabbrev help tab help
-set wildmenu " show autocomplete info in some places
-set wildmode=list:longest,full " when autocompleting, first show all matches then cycle thru them
-set showcmd "show partial commands as they are being typed
-set hlsearch incsearch "search as you type and highlight matches
-set ignorecase smartcase "search handles case sensitivity well
-
-
-" UNDO
-" Save and load undo history in a file
-set undofile
-set undodir=$HOME/.vim/undo
-set undolevels=100
-set undoreload=1000
-
+"" COLOR - SOLARIZED
 let s:base03 = [ '#002b36', 8 ]
 let s:base02 = [ '#073642', 0 ]
 let s:base01 = [ '#586e75', 10 ]
@@ -110,6 +55,38 @@ let s:blue = [ '#268bd2', 4 ]
 let s:cyan = [ '#2aa198', 6 ]
 let s:green = [ '#859900', 2 ]
 
+set textwidth=80
+set colorcolumn=+1
+hi ColorColumn guibg=#2d2d2d ctermbg=236
+
+"" AUGROUPS
+augroup latex_compile
+  au!
+  autocmd BufWritePost *.tex :!pdflatex %
+augroup end
+
+"" TAB STUFF
+set t_ut=
+set showtabline=2 "show tab bar on top even if there is just one
+set tabpagemax=25 "allow up to 25 tabs
+cabbrev help tab help
+
+"" AUTOCOMPLETE STUFF
+set wildmenu " show autocomplete info in some places
+set wildmode=list:longest,full " when autocompleting, first show all matches 
+                               " then cycle thru them
+set showcmd "show partial commands as they are being typed
+
+"" SEARCH STUFF
+set hlsearch incsearch "search as you type and highlight matches
+set ignorecase smartcase "search handles case sensitivity well
+
+" UNDO
+set undofile
+set undodir=$HOME/.vim/undo
+set undolevels=100
+set undoreload=1000
+
 "" LATEX
 " REQUIRED. This makes vim invoke Latex-Suite when you open a tex file.
 filetype plugin on
@@ -124,12 +101,30 @@ filetype indent on
 " The following changes the default filetype back to 'tex':
 let g:tex_flavor='latex'
 
+" My own custom macros
+""This is a big one for me
+nnoremap ; : 
+iabbrev @@ james.adam.buckland@gmail.com
+map <space> viw
+set matchpairs+=<:> " match with % between <> pairs
+set mouse= "disable mouse
+set autoread " reloads files on change
+"
+" My own custom LEADER macros, where <Leader> is \
+" SHOW COORDINATES
 hi CursorLine   cterm=NONE ctermbg=darkmagenta ctermfg=white guibg=darkred guifg=white
 hi CursorColumn cterm=NONE ctermbg=darkmagenta ctermfg=white guibg=darkred guifg=white
 set nocursorline nocursorcolumn
 nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
 
 " ALIGN COLUMNS
-nnoremap <Leader>a :%!column -t<CR> 
-" FORMAT JSONN
+nnoremap <Leader>a :%!column -t<CR>
+
+" FORMAT JSON
 nnoremap <Leader>j :%!python -m json.tool<CR>
+"
+" CURSOR LINE HIGHLIGHTING
+"match OverLength /\%81v.\+/" set mouse=a "enable mouse
+"nnoremap <Leader>o :highlight OverLength ctermbg=red ctermfg=white guibg=#592929<CR>
+"nnoremap <Leader>O :no highlight OverLength ctermbg=red ctermfg=white guibg=#592929<CR>
+
