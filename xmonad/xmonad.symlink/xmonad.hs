@@ -27,7 +27,7 @@ myLayout = avoidStruts $ smartBorders tiled ||| smartBorders (Mirror tiled) ||| 
 myStartupHook = setWMName "LG3D" -- deek
 
 main = do
-    xmproc <- spawnPipe "/usr/bin/xmobar /home/james/.xmobarrc"
+    xmproc <- spawnPipe "/usr/bin/xmobar /home/j/.xmobarrc"
     xmonad $ defaultConfig
         { terminal = "gnome-terminal"
 
@@ -40,28 +40,28 @@ main = do
                         , ppTitle = xmobarColor "#2aa198" "" . shorten 50
                         --, ppCurrent = \s -> xmobarColor "#b58900" "" ("("++s++")")
                         , ppCurrent = \s -> xmobarColor "#b58900" "" s
-												, ppLayout = xmobarColor "#93a1a1" "" .
+                        , ppLayout = xmobarColor "#93a1a1" "" .
                             (\ x -> case x of
                                       "Tall"          -> "[]="
                                       "Mirror Tall"   -> "|||"
                                       "Full"          -> "[ ]"
                                       _               -> x
                             )
-												, ppSep =  xmobarColor "#586e75" "" " | "
-												, ppWsSep = " "
-												, ppExtras = 
-													[
+                        , ppSep =  xmobarColor "#586e75" "" " | "
+                        , ppWsSep = " "
+                        , ppExtras = 
+                          [
                             wrapL "vol: " "%" $ 
                             xmobarColorL "#cb4b16" "" $ 
                             logCmd "amixer -D pulse sget Master | tail -n 1 | mawk '{ print(substr($5,2,index($5,\"%\")-2) ) }' "
-													, wrapL "bri: " "%" $ 
+                          , wrapL "bri: " "%" $ 
                             xmobarColorL "#dc322f" "" $ 
                             logCmd "xbacklight -get | mawk '{print(substr($1,1,length($1)-7) )}'"
-													]
-												, ppOrder = \(ws:l:t:x) -> [ws,l]++x++[t]
+                          ]
+                        , ppOrder = \(ws:l:t:x) -> [ws,l]++x++[t]
                         }
         -- something about fullscreen in chrome
-        , handleEventHook = fullscreenEventHook
+        , handleEventHook = handleEventHook def <+> docksEventHook <+> fullscreenEventHook
 
         -- colors
         , borderWidth        = 1
@@ -84,6 +84,6 @@ main = do
         , ("M-p", spawn "dmenu_run -nb '#93a1a1' -nf '#002b36' -sb '#002b36' -sf '#93a1a1'")
 
         -- app launchers
-        , ("<XF86Search>"            , spawn "chromium-browser")
+        , ("<XF86Search>"            , spawn "google-chrome-stable")
         , ("<F7>"                    , spawn "spotify")
         ]
