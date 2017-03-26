@@ -27,6 +27,11 @@ set shiftwidth=2 " >>, << operations shift by 2 spaces
 set softtabstop=2 " <Tab> shifts by 2 spaces
 set tabstop=2 " a column is 2 spaces
 " set expandtab " all tabs become spaces
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
+endif
+
 
 " INDENTATION
 set autoindent
@@ -34,26 +39,27 @@ set smartindent
 
 "" COLOR
 syntax enable
-set term=xterm-256color
-set background=dark
-colorscheme default
+"set term=xterm-256color
+"set background=dark
+"colorscheme default
+
 "" COLOR - SOLARIZED
-let s:base03 = [ '#002b36', 8 ]
-let s:base02 = [ '#073642', 0 ]
-let s:base01 = [ '#586e75', 10 ]
-let s:base00 = [ '#657b83', 11  ]
-let s:base0 = [ '#839496', 12 ]
-let s:base1 = [ '#93a1a1', 14 ]
-let s:base2 = [ '#eee8d5', 7 ]
-let s:base3 = [ '#fdf6e3', 15 ]
-let s:yellow = [ '#b58900', 3 ]
-let s:orange = [ '#cb4b16', 9 ]
-let s:red = [ '#dc322f', 1 ]
-let s:magenta = [ '#d33682', 5 ]
-let s:violet = [ '#6c71c4', 13 ]
-let s:blue = [ '#268bd2', 4 ]
-let s:cyan = [ '#2aa198', 6 ]
-let s:green = [ '#859900', 2 ]
+" let s:base03 = [ '#002b36', 8 ]
+" let s:base02 = [ '#073642', 0 ]
+" let s:base01 = [ '#586e75', 10 ]
+" let s:base00 = [ '#657b83', 11  ]
+" let s:base0 = [ '#839496', 12 ]
+" let s:base1 = [ '#93a1a1', 14 ]
+" let s:base2 = [ '#eee8d5', 7 ]
+" let s:base3 = [ '#fdf6e3', 15 ]
+" let s:yellow = [ '#b58900', 3 ]
+" let s:orange = [ '#cb4b16', 9 ]
+" let s:red = [ '#dc322f', 1 ]
+" let s:magenta = [ '#d33682', 5 ]
+" let s:violet = [ '#6c71c4', 13 ]
+" let s:blue = [ '#268bd2', 4 ]
+" let s:cyan = [ '#2aa198', 6 ]
+" let s:green = [ '#859900', 2 ]
 
 set textwidth=80
 set colorcolumn=+1
