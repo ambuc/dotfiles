@@ -63,7 +63,7 @@ syntax enable
 
 set textwidth=80
 set colorcolumn=+1
-hi ColorColumn guibg=#2d2d2d ctermbg=236
+"i ColorColumn guibg=#2d2d2d ctermbg=236
 
 "" AUGROUPS
 augroup latex_compile

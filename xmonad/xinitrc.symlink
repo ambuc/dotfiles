@@ -9,13 +9,16 @@ setxkbmap -option ctrl:nocaps
 
 # start a wicd client so that we can get desktop notifications
 wicd-client &
-trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --transparent true --alpha 0 --tint 0x002b36 --width 5 --height 19 &
+trayer --edge top --align right --SetDockType true --SetPartialStrut true \
+       --expand true --transparent true --alpha 0 --tint 0x002b36 \
+       --width 5 --height 19 &
 
 # flux, sort
 redshift &
 
 # set desktop background
-# feh --bg-scale ~/Pictures/sat.png &
+feh --bg-scale ~/Downloads/windows.png
+# xsetroot -gray &
 
 # auto cursor
 xsetroot -cursor_name left_ptr
