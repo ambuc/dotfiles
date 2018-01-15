@@ -43,15 +43,17 @@ main = do
         { terminal           = "gnome-terminal"
         , manageHook         = myManageHook
         , layoutHook         = avoidStruts $ layoutHook def
-        , handleEventHook    = handleEventHook def <+> docksEventHook <+> fullscreenEventHook -- something about fullscreen in chrome
+        , handleEventHook    = handleEventHook def <+> docksEventHook 
+                             <+> fullscreenEventHook 
+                             -- something about fullscreen in chrome
         , borderWidth        = 5
-        , focusedBorderColor = solBase01
+        , focusedBorderColor = solOrange
         , normalBorderColor  = solBase03
         , logHook            = dynamicLogWithPP xmobarPP
             { ppOutput  = hPutStrLn xmproc
-            , ppTitle   = xmobarColor solCyan   "" . shorten 50
+            , ppTitle   = xmobarColor solBase01 "" . shorten 50
             , ppCurrent = xmobarColor solYellow ""
-            , ppLayout  = xmobarColor solBase1  "" .
+            , ppLayout  = xmobarColor solBase0 "" .
                 (\ x -> case x of
                           "Tall"        -> "[]="
                           "Mirror Tall" -> "|||"
@@ -81,7 +83,7 @@ main = do
         , ("M-b" , sendMessage ToggleStruts)
         , ("M-p" , spawn "dmenu_run -nf '#93a1a1' -nb '#002b36' -sf '#002b36' -sb '#93a1a1'")
         , ("M-i" , spawn "wicd-gtk -n")
-        , ("M-x" , spawn "xautolock -locknow")
+        , ("M-x" , spawn "gnome-screensaver-command -l")
         -- app launchers
         , ( "<XF86Search>"     , spawn "google-chrome-stable")
         , ( "<XF86HomePage>"   , spawn "google-chrome-stable")

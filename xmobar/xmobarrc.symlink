@@ -1,6 +1,6 @@
 -- not really haskell, but close enough
 Config {
-     font        = "xft:Ubuntu Mono:size=10:bold:antialias=true"
+     font        = "xft:Ubuntu Mono:size=12:bold:antialias=true"
    , bgColor     = "#002b36" -- for solarized dark
    , fgColor     = "#586e75" -- for solarized dark
    , position    = TopW L 95
