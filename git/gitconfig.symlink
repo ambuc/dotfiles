@@ -6,6 +6,10 @@
   lol = log --graph --decorate --pretty=oneline --abbrev-commit
   lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
   graph = log --graph --oneline --decorate --all
+	st = status
+	br = branch
+	co = checkout
+	ci = commit
 
 [core]
   editor= vim
@@ -15,3 +19,4 @@
   diff = auto
   interactive = auto
   status = auto
+	ui = always

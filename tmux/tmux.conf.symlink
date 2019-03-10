@@ -41,6 +41,8 @@ bind -n M-j select-pane -D
 bind -n M-k select-pane -U
 bind -n M-l select-pane -R
 
+bind -n M-z resize-pane -Z
+
 # capital keys for pane resizing by 5
 bind H resize-pane -L 5
 bind J resize-pane -D 5
@@ -67,9 +69,10 @@ set -g window-status-current-fg white
 set -g window-status-bg black
 set -g window-status-fg '#585858'
 
-set -g window-active-style "fg=white, bg=black"
-set -g window-style "fg=white, bg=black"
-set -g pane-border-fg black
+# 234 is darker, 236 is lighter
+set -g window-active-style "fg=white, bg=colour0" 
+set -g window-style "fg=white, bg=colour0"
+set -g pane-border-fg white
 set -g pane-border-bg black
 set -g pane-active-border-fg red
 set -g pane-active-border-bg black
@@ -79,5 +82,7 @@ set -g @plugin 'tmux-plugins/tmux-continuum'
 
 set -g @continuum-restore 'on'
 
+
 #must be at bottom
-run '~/.tmux/plugins/tpm/tpm'
+#run '~/.tmux/plugins/tpm/tpm'
+

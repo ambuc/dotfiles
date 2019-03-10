@@ -5,12 +5,14 @@
 
 
 "PLUGINS
-call pathogen#infect() " enable pathogen extention handler
-"  implicit Pathogen modules
-"      ntpeters/vim-better-whitespace
-"          :StripWhitespace
-"          :ToggleWhitespace
-"
+call plug#begin('~/.vim/plugged')
+Plug 'chriskempson/base16-vim'
+Plug 'rust-lang/rust.vim'
+Plug 'vim-syntastic/syntastic'
+Plug 'kien/ctrlp.vim'
+call plug#end()
+
+
 filetype plugin indent on " idk, something to do with plugins
 set laststatus=2 " i'll be honest, i have no idea what this does. but it makes
 
@@ -40,38 +42,12 @@ set smartindent
 
 "" COLOR
 syntax enable
-"set term=xterm-256color
-"set background=dark
-"colorscheme solarized
-colorscheme default
-
-"" COLOR - SOLARIZED
-" let s:base03 = [ '#002b36', 8 ]
-" let s:base02 = [ '#073642', 0 ]
-" let s:base01 = [ '#586e75', 10 ]
-" let s:base00 = [ '#657b83', 11  ]
-" let s:base0 = [ '#839496', 12 ]
-" let s:base1 = [ '#93a1a1', 14 ]
-" let s:base2 = [ '#eee8d5', 7 ]
-" let s:base3 = [ '#fdf6e3', 15 ]
-" let s:yellow = [ '#b58900', 3 ]
-" let s:orange = [ '#cb4b16', 9 ]
-" let s:red = [ '#dc322f', 1 ]
-" let s:magenta = [ '#d33682', 5 ]
-" let s:violet = [ '#6c71c4', 13 ]
-" let s:blue = [ '#268bd2', 4 ]
-" let s:cyan = [ '#2aa198', 6 ]
-" let s:green = [ '#859900', 2 ]
+let base16colorspace=256
+set background=dark
+colorscheme base16-gruvbox-dark-hard
 
 set textwidth=80
 set colorcolumn=+1
-"i ColorColumn guibg=#2d2d2d ctermbg=236
-
-"" AUGROUPS
-augroup latex_compile
-  au!
-  autocmd BufWritePost *.tex :!pdflatex %
-augroup end
 
 "" TAB STUFF
 set t_ut=
@@ -95,24 +71,7 @@ set undodir=$HOME/.vim/undo
 set undolevels=100
 set undoreload=1000
 
-"" LATEX
-" REQUIRED. This makes vim invoke Latex-Suite when you open a tex file.
-filetype plugin on
-" important: grep will sometimes skip displaying the file name if you
-" search in a single file. This will confuse Latex-Suite. Set your grep
-" program to always generate a file-name.
-set grepprg=grep\ -nH\ $*
-" optional: This enables automatic indentation as you type.
-filetype indent on
-" optional: Starting with Vim 7, the filetype of empty .tex files defaults to
-" 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
-" The following changes the default filetype back to 'tex':
-let g:tex_flavor='latex'
-
-" My own custom macros
-""This is a big one for me
 nnoremap ; : 
-iabbrev @@ james.adam.buckland@gmail.com
 map <space> viw
 set matchpairs+=<:> " match with % between <> pairs
 set mouse= "disable mouse
@@ -125,15 +84,25 @@ hi CursorColumn cterm=NONE ctermbg=darkmagenta ctermfg=white guibg=darkred guifg
 set nocursorline nocursorcolumn
 nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
 
-" ALIGN COLUMNS
-nnoremap <Leader>a :%!column -t<CR>
+" Rust
+let g:rustfmt_autosave = 1 
+map <C-a> :RustFmt<CR>
 
-" FORMAT JSON
-nnoremap <Leader>j :%!python -m json.tool<CR>
-"
-" CURSOR LINE HIGHLIGHTING
-"match OverLength /\%81v.\+/" set mouse=a "enable mouse
-"nnoremap <Leader>o :highlight OverLength ctermbg=red ctermfg=white guibg=#592929<CR>
-"nnoremap <Leader>O :no highlight OverLength ctermbg=red ctermfg=white guibg=#592929<CR>
-let g:rustfmt_autosave = 1
+set hidden
+let g:racer_experimental_completer = 1
+" let g:racer_cmd = "/home/jamesadambuckland/.cargo/bin/racer" " not needed
+
+" https://news.ycombinator.com/item?id=13961624
+function! InsertTabWrapper()
+  let col = col('.') - 1
+  if !col || getline('.')[col - 1] !~ '\k'
+    return "\<tab>"
+  else
+    return "\<c-p>"
+  endif
+endfunction
+inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+
+"Rust keeps buildfiles under target/*
+let g:ctrlp_custom_ignore = 'target' 
 
